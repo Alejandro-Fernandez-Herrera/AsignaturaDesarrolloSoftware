@@ -4,23 +4,31 @@ import {UsersPage} from "./pages/UsersPage"
 import {UserFormPage} from "./pages/UserFormPage"
 import {LandingPage} from "./pages/LandingPage"
 import { QueryClient, QueryClientProvider } from "react-query";
-
+import { Auth0Provider } from '@auth0/auth0-react';
 
 function App() {
   const queryClient = new QueryClient();
 
   return (
     <>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage/>}/>
-          <Route path="/users" element={<UsersPage/>}/>
-          <Route path="/users-create" element={<UserFormPage/>}/>
+    <Auth0Provider
+    domain="dev-aria802vns1qw1u8.us.auth0.com"
+    clientId="xzXFfXrcqrKIxAGfDjtmXLwQxfBTx8uy"
+    authorizationParams={{
+      redirect_uri: window.location.origin
+    }}
+    >
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LandingPage/>}/>
+            <Route path="/users" element={<UsersPage/>}/>
+            <Route path="/users-create" element={<UserFormPage/>}/>
 
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </Auth0Provider>
       
     </>
   )

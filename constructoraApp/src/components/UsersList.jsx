@@ -1,5 +1,5 @@
 
-
+import PropTypes from 'prop-types'
 export default function UsersList({data}) {
     return (
         <>
@@ -31,3 +31,6 @@ export default function UsersList({data}) {
         </>)
 }
 
+UsersList.propTypes={
+    data: PropTypes.object,
+}
