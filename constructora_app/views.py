@@ -5,15 +5,8 @@ from .models import Account
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-def getAccount(request, pk=''):
-    accounts = Account.objects.all()
-    return Response(accounts)
-def updateAccount(request):
-    accounts = Account.objects.all()
-    return Response(accounts)
-def deleteAccount(request):
-    accounts = Account.objects.all()
-    return Response(accounts)
+from django.shortcuts import get_object_or_404
+
 def getAccounts(request):
     accounts = Account.objects.all()
     serializer = AccountSerializer(accounts, many=True)
@@ -41,17 +34,28 @@ def AccountsController(request):
     
 @api_view(['PUT','GET','DELETE'])
 def AccountController(request,pk=''):
-    if request.method=='GET':
-        return getAccount(request,pk)
-    if request.method=='PUT':
-        return updateAccount(request)
-    if request.method=='DELETE':
-        return deleteAccount(request)
+    if not pk:
+        return Response({'error': 'Clave primaria requerida'}, status=status.HTTP_400_BAD_REQUEST)
+    # Obtener la cuenta; devolver 404 si no existe
+    account = get_object_or_404(Account, pk=pk)
+    if request.method == 'GET':
+        serializer = AccountSerializer(account)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = AccountSerializer(account, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    elif request.method == 'DELETE':
+        account.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
 @api_view(['GET'])
 def UserAccountController(request):
     if request.method=='GET':
-        return getAccount(request,'')
+        return getAccounts(request)
 
     
        

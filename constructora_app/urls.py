@@ -5,8 +5,8 @@ from constructora_app import views
 router =routers.DefaultRouter()
 
 urlpatterns=[
-      path('accounts/me/',views.UserAccountController,name="account" ),
-     path('accounts/<str:pk>/',views.AccountController,name="account" ),
+    path('accounts/me/',views.UserAccountController,name="account" ),
+    path('accounts/<str:pk>/',views.AccountController,name="account" ),
     path('accounts/',views.AccountsController,name="accounts" ),
     path('docs/', include_docs_urls(title='Constructora API'))
 
