@@ -1,10 +1,10 @@
 """
-WSGI config for constructora project.
+WSGI config for constructora constructora.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/
+https://docs.djangoconstructora.com/en/5.0/howto/deployment/wsgi/
 """
 
 import os

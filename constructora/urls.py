@@ -1,8 +1,8 @@
 """
-URL configuration for constructora project.
+URL configuration for constructora constructora.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
+    https://docs.djangoconstructora.com/en/5.0/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -19,5 +19,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('constructora_app/',include('constructora_app.urls'))
+    path('api/',include('constructora_app.urls'))
 ]
