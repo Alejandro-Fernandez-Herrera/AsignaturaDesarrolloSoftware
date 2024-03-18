@@ -8,6 +8,7 @@ urlpatterns=[
     path('accounts/me/',views.UserAccountController,name="account" ),
     path('accounts/<str:pk>/',views.AccountController,name="account" ),
     path('accounts/',views.AccountsController,name="accounts" ),
-    path('docs/', include_docs_urls(title='Constructora API'))
-
+    path('docs/', include_docs_urls(title='Constructora API')),
+    path('users/',views.UsersController,name="Users" ),
+    path('users/<str:userId>/',views.UsersController,name="users" ),
 ]

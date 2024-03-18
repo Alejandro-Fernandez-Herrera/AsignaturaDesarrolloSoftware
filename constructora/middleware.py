@@ -15,7 +15,7 @@ def verify_permission(token, required_permission):
     
     try:
         payload = jwt.get_unverified_claims(token=token)
-        print(payload)
+       
         
         permissions = payload.get('permissions', [])
         
@@ -52,11 +52,20 @@ class AuthMiddleware:
                 response = verifyPermission(self, request, 'read:account', token)
                 if response:
                     return response
-                
+        if request.path.startswith('/api/users/'):
+            token = request.headers.get('Authorization', '').split(' ')[1] if 'Authorization' in request.headers else None
+        if request.method == 'POST':
+            response = verifyPermission(self, request, 'create:account', token)
+            if response:
+                return response   
+        if request.method == 'PATCH':
+                response = verifyPermission(self, request, 'update:account/uuid', token)
+                if response:
+                    return response   
         
-        return self.get_response(request)
 
-        
+        return self.get_response(request)
+       
                     
                
     
