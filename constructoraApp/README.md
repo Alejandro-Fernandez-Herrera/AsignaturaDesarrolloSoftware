@@ -9,7 +9,7 @@ async function getExampleData(args){
 try{
 //function to get token
 const {getToken} = args
-const token = await getToken()
+
 if(!token){
 throw 'No token found'
 }

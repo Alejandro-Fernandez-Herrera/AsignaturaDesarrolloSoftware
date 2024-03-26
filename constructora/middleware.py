@@ -54,14 +54,18 @@ class AuthMiddleware:
                     return response
         if request.path.startswith('/api/users/'):
             token = request.headers.get('Authorization', '').split(' ')[1] if 'Authorization' in request.headers else None
-        if request.method == 'POST':
-            response = verifyPermission(self, request, 'create:account', token)
-            if response:
-                return response   
-        if request.method == 'PATCH':
-                response = verifyPermission(self, request, 'update:account/uuid', token)
+            if request.method == 'GET':
+                response = verifyPermission(self, request, 'read:users', token)
+                if response:
+                    return response 
+            if request.method == 'POST':
+                response = verifyPermission(self, request, 'create:account', token)
                 if response:
                     return response   
+            if request.method == 'PATCH':
+                    response = verifyPermission(self, request, 'update:account/uuid', token)
+                    if response:
+                        return response   
         
 
         return self.get_response(request)
