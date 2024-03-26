@@ -18,6 +18,7 @@ function App() {
           clientId="xzXFfXrcqrKIxAGfDjtmXLwQxfBTx8uy"
           authorizationParams={{
             redirect_uri: "http://localhost:5173/dashboard",
+            audience: "http://127.0.0.1:8000/",
           }}
         >
           <QueryClientProvider client={queryClient}>
