@@ -93,3 +93,19 @@ return result
   de la capa de datos cuando sea necesario. Implementan los handlers que triggerean llamadas de red dinamicamente.
 - Routes: define la navegacion de la aplicacion
 - Context: datos compartidos alrededor de la aplicacion como el usuario loggeado, etc
+
+data para crear usuario
+{
+"account": {
+"email": "userjose22@example.com",
+"blocked": false,
+"given_name": "string",
+"family_name": "string",
+"name": "string",
+"connection": "Username-Password-Authentication",
+"password": "string_23123\*",
+"username": "userjose22",
+"user_metadata": { "doc_type": "CC", "doc_number": "a111","gender": "M","address":"carrera 83", "cellphone":"33333"}
+},
+"role": "rol_DuLG7hMExcR533yR"
+}

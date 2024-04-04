@@ -10,5 +10,9 @@ urlpatterns=[
     path('accounts/',views.AccountsController,name="accounts" ),
     path('docs/', include_docs_urls(title='Constructora API')),
     path('users/',views.UsersController,name="Users" ),
-    path('users/<str:userId>/',views.UsersController,name="users" ),
+    path('users/<str:userId>/',views.UserController,name="user" ),
+    path('roles/',views.RolesController,name="roles"),
+    path('roles/<str:roleId>/users/',views.UsersByRoleController,name="usersByRole"),
+
+
 ]

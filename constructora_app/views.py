@@ -52,7 +52,7 @@ def getAuth0Token():
 
 
 def createAuth0User(token,data,uuid):
-    print('creating....')
+    #print('creating....')
     url = "https://dev-aria802vns1qw1u8.us.auth0.com/api/v2/users"
     
     data['app_metadata'] = {
@@ -68,7 +68,7 @@ def createAuth0User(token,data,uuid):
     return response.json()
 
 def updateAuth0User(token,data,userId):
-    print('updating....')
+    #print('updating....')
     url = "https://dev-aria802vns1qw1u8.us.auth0.com/api/v2/users/"+userId
    
 
@@ -83,7 +83,7 @@ def updateAuth0User(token,data,userId):
 
     return response.json()
 def addRoleToUser(token, userId,role):
-    print('asigning role...')
+    #print('asigning role...')
     encoded_user_id = quote(userId)
     url = "https://dev-aria802vns1qw1u8.us.auth0.com/api/v2/users/"+encoded_user_id + '/roles'
    
@@ -100,6 +100,7 @@ def createUser(request):
     accountUuid = str(uuid.uuid4())
     token = getAuth0Token()
     auth0User = createAuth0User(token['access_token'],request.data['account'],accountUuid)
+    
     if 'error' in auth0User:
         return Response(data=auth0User, status=400)
     addRoleToUser(token['access_token'],auth0User['user_id'],request.data['role'])
@@ -122,17 +123,58 @@ def getUsers(request):
     'Authorization': 'Bearer '+ token['access_token']
     }
     response = requests.get(url, headers=headers)
-    print(response.json())
+    #print(response.json())
     return Response(data=response.json())
 
-    try:
-        # Intenta devolver el JSON de la respuesta
-        return response.json()
-    except ValueError:
-        # En caso de que no haya un JSON válido en la respuesta, devuelve un mensaje de error o la respuesta cruda
-        return {'error': 'No se pudo decodificar la respuesta como JSON', 'raw_response': response.text}
+def getUser(request,userId):
+    token = getAuth0Token()
+    url = "https://dev-aria802vns1qw1u8.us.auth0.com/api/v2/users/"+userId
+    headers = {
+    'Accept': 'application/json',
+    'Authorization': 'Bearer '+ token['access_token']
+    }
+    response = requests.get(url, headers=headers)
+    #print(response.json())
+    return Response(data=response.json())
 
+def getRoles(request):
+    token = getAuth0Token()
+    url = "https://dev-aria802vns1qw1u8.us.auth0.com/api/v2/roles"
     
+    headers = {
+    'Accept': 'application/json',
+    'Authorization': 'Bearer '+ token['access_token']
+    }
+    response = requests.get(url, headers=headers)
+    #print(response.json())
+    return Response(data=response.json())
+
+def getUsersByRole(request,roleId):
+    token = getAuth0Token()
+    url = "https://dev-aria802vns1qw1u8.us.auth0.com/api/v2/roles/"+ roleId +"/users"
+    headers = {
+    'Accept': 'application/json',
+    'Authorization': 'Bearer '+ token['access_token']
+    }
+    response = requests.get(url, headers=headers)
+    usersByRole=response.json()
+    users = []
+    userHeaders= {
+    'Accept': 'application/json',
+    'Authorization': request.headers.get('Authorization')
+    }
+    #print(len(usersByRole))
+    for user in usersByRole:
+        
+        userResponse = requests.get(f"http://127.0.0.1:8000/api/users/{user['user_id']}",headers=userHeaders)
+        users.append(userResponse.json())
+        print(user['user_id'])
+    return  Response(data=users)
+
+
+    #return Response(data=response.json())
+
+
 
 
 @api_view(['POST','GET'])
@@ -162,14 +204,26 @@ def UserAccountController(request):
         return getAccounts(request)
 
 @api_view(['POST','PATCH','GET'])
-def UsersController(request,userId=''):
-    if request.method=='PATCH':
-        return updateUser(request,userId)
-    
+def UsersController(request):
     if request.method=='POST':
         return  createUser(request) 
     if request.method=='GET':
-        return  getUsers(request) 
-       
+        return  getUsers(request)
+
+@api_view(['GET'])
+def UserController(request,userId=''):
+    if request.method=='GET':
+        return  getUser(request,userId)  
+    
+@api_view(['GET'])
+def RolesController(request):
+    if request.method=='GET':
+        return getRoles(request)
+    
+@api_view(['GET'])
+def UsersByRoleController(request, roleId=''):
+    if request.method=='GET':
+        return getUsersByRole(request,roleId)
+    
 
 
