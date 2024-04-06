@@ -9,9 +9,11 @@ function DashboardComponent() {
       <SideNav />
       <Routes>
         <Route path="/" element={<div>Dashboard</div>} />
+        <Route path="/users/:id" element={<UserManagement />} />
         <Route path="/users" element={<UserManagement />} />
         <Route path="/buildings" element={<BuildingManagement />} />
-        <Route path="/buildings" element={<BuildingManagement />} />
+        <Route path="/tasks" element={<div>Tasks</div>} />
+        <Route path="/taskmanagement" element={<div>Taskmanagement</div>} />
       </Routes>
     </div>
   );

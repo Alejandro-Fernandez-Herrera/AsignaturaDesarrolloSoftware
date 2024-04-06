@@ -1,5 +1,3 @@
-import { NavLink } from "react-router-dom";
-
 import { Link } from "react-router-dom";
 import { withAuthorizationDisplay } from "../Auth/WithAuthorizationDisplay";
 
@@ -47,19 +45,23 @@ const TaskManagement = withAuthorizationDisplay(
 export function SideNav() {
   return (
     <div
-      style={{
-        display: "flex",
-        width: "250px",
-        padding: "10px",
-        flexDirection: "column",
-        border: "1px dashed #E2E2E2",
-      }}
+      className="bg-light border-right"
+      id="sidebar-wrapper"
+      style={{ width: "250px" }}
     >
-      <NavLink to="/dashboard">Inicio</NavLink>
-      <UsersLink />
-      <BuildingsLink />
-      <Task />
-      <TaskManagement />
+      <div className="sidebar-heading">Menú Principal</div>
+      <div className="list-group list-group-flush">
+        <Link
+          to="/dashboard"
+          className="list-group-item list-group-item-action bg-light"
+        >
+          Inicio
+        </Link>
+        <UsersLink />
+        <BuildingsLink />
+        <Task />
+        <TaskManagement />
+      </div>
     </div>
   );
 }
