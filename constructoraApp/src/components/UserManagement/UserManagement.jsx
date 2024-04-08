@@ -55,3 +55,4 @@ function BaseComponent() {
 export const UserManagement = withAuthorizationRedirect(BaseComponent, {
   roles: ["Gerente"],
 });
+

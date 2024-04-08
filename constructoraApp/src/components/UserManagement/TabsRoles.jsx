@@ -40,3 +40,4 @@ function BaseComponent() {
 export const TabsRoles = withAuthorizationRedirect(BaseComponent, {
   roles: ["Gerente"],
 });
+
